@@ -223,10 +223,10 @@
         <div style="font-size: 0.9em; color: #777;">per year</div>
 
         <div class="subtitle" style="margin-top:30px;">Estimated Time Lost</div>
-        <table style="margin: 0 auto; font-size: 0.95em; color: #c9d1d9; border-collapse: collapse;">
+<div style="margin-bottom: 1rem; font-weight: bold; color: #58a6ff;">Monthly Impact</div>
+<table style="margin: 0 auto 2rem auto; font-size: 0.95em; color: #c9d1d9; border-collapse: collapse;">
   <thead>
-    <tr style="color: #58a6ff;">
-      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;"></th>
+    <tr>
       <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Minutes</th>
       <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Hours</th>
       <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Workdays</th>
@@ -234,7 +234,6 @@
   </thead>
   <tbody>
     <tr>
-      <td style="padding: 6px 12px;">Monthly</td>
       <td style="padding: 6px 12px;">
         ${monthlyTimeImpactMinutes.toLocaleString()}
         <div style='background:#2ea043;height:6px;width:${Math.min((monthlyTimeImpactMinutes/10000)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
@@ -248,8 +247,19 @@
         <div style='background:#2ea043;height:6px;width:${Math.min((monthlyDays/20)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
       </td>
     </tr>
+  </tbody>
+</table>
+<div style="margin-bottom: 1rem; font-weight: bold; color: #ff7b72;">Yearly Impact</div>
+<table style="margin: 0 auto; font-size: 0.95em; color: #c9d1d9; border-collapse: collapse;">
+  <thead>
     <tr>
-      <td style="padding: 6px 12px;">Yearly</td>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Minutes</th>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Hours</th>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Workdays</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
       <td style="padding: 6px 12px;">
         ${annualTimeImpactMinutes.toLocaleString()}
         <div style='background:#ff7b72;height:6px;width:${Math.min((annualTimeImpactMinutes/120000)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
