@@ -14,6 +14,8 @@
     .result { margin-top: 30px; font-size: 1.4em; text-align: center; }
     .highlight { font-size: 2em; color: #d32f2f; font-weight: bold; margin-top: 10px; }
     .subtitle { font-size: 1.1em; color: #555; }
+    .gif-container { text-align: center; margin-top: 20px; display: none; }
+    .gif-container img { max-width: 100%; border-radius: 12px; }
   </style>
 </head>
 <body>
@@ -29,6 +31,9 @@
       <button type="submit">Calculate Risk</button>
     </form>
     <div class="result" id="result"></div>
+    <div class="gif-container" id="gifContainer">
+      <img src="burning-money.gif" alt="Burning Money GIF">
+    </div>
   </div>
 
   <script>
@@ -48,6 +53,8 @@
         <div class="highlight">$${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
         <div class="highlight">$${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
       `;
+
+      document.getElementById('gifContainer').style.display = 'block';
     });
   </script>
 </body>
