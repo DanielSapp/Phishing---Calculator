@@ -201,6 +201,16 @@
       const monthlyCost = totalPhishingEmails * costPerEmail;
       const annualCost = monthlyCost * 12;
 
+      // Time calculation: 27 minutes per phishing email
+      const minutesPerEmail = 27;
+      const monthlyTimeImpactMinutes = totalPhishingEmails * minutesPerEmail;
+      const annualTimeImpactMinutes = monthlyTimeImpactMinutes * 12;
+
+      const monthlyHours = Math.floor(monthlyTimeImpactMinutes / 60);
+      const monthlyDays = Math.floor(monthlyHours / 8);
+      const annualHours = Math.floor(annualTimeImpactMinutes / 60);
+      const annualDays = Math.floor(annualHours / 8);
+
       const isoStr = fetchTime.toISOString();
       const utcTimestamp = isoStr.slice(0,16).replace('T',' ') + ' UTC';
 
@@ -209,6 +219,9 @@
         <div class="subtitle">Based on your input, the estimated impact is:</div>
         <div class="highlight">${currencySymbol}${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
         <div class="highlight">${currencySymbol}${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
+        <div class="subtitle" style="margin-top:20px;">Estimated Time Impact:</div>
+        <div class="highlight">${monthlyTimeImpactMinutes.toLocaleString()} minutes / ${monthlyHours} hours / ${monthlyDays} workdays <span style="font-size: 0.6em; color: #777;">per month</span></div>
+        <div class="highlight">${annualTimeImpactMinutes.toLocaleString()} minutes / ${annualHours} hours / ${annualDays} workdays <span style="font-size: 0.6em; color: #777;">per year</span></div>
       `;
       resultDiv.classList.add('show');
 
