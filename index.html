@@ -5,21 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IRONSCALES Phishing Calculator</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display: block; margin-top: 15px; }
-    input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 20px; padding: 10px 20px; background-color: #0073e6; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background-color: #005bb5; }
-    .result { margin-top: 30px; font-size: 1.4em; text-align: center; }
-    .highlight { font-size: 2em; color: #d32f2f; font-weight: bold; margin-top: 10px; }
-    .subtitle { font-size: 1.1em; color: #555; }
-    .gif-container { text-align: center; margin-top: 20px; display: none; }
-    .gif-container img { max-width: 100%; border-radius: 12px; }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #161b22;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
+    }
+
+    .branding {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .branding img {
+      max-width: 180px;
+      height: auto;
+    }
+
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #c9d1d9;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #30363d;
+      border-radius: 5px;
+      background-color: #0d1117;
+      color: #c9d1d9;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #238636;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #2ea043;
+    }
+
+    .result, .gif-container {
+      margin-top: 30px;
+      font-size: 1.4em;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .result.show, .gif-container.show {
+      opacity: 1;
+    }
+
+    .highlight {
+      font-size: 2em;
+      color: #ff7b72;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.1em;
+      color: #8b949e;
+    }
+
+    .timestamp {
+      font-size: 0.9em;
+      color: #8b949e;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .gif-container img {
+      max-width: 100%;
+      border-radius: 12px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+      .highlight {
+        font-size: 1.5em;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="branding">
+      <img src="ca276460-8104-47e2-a2c9-dccd2a0349f4.png" alt="IRONSCALES Logo">
+    </div>
     <h1>IRONSCALES Phishing Risk Calculator</h1>
     <form id="calcForm">
       <label for="employees">Number of Employees:</label>
@@ -28,33 +132,88 @@
       <label for="phishRate">Phishing Emails per Employee per Month:</label>
       <input type="number" id="phishRate" name="phishRate" step="0.01" required>
 
+      <label for="currency">Select Currency:</label>
+      <select id="currency" name="currency">
+        <option value="USD">🇺🇸 USD ($)</option>
+        <option value="GBP">🇬🇧 GBP (£)</option>
+        <option value="AUD">🇦🇺 AUD (A$)</option>
+        <option value="EUR">🇪🇺 EUR (€)</option>
+        <option value="CAD">🇨🇦 CAD (C$)</option>
+      </select>
+
       <button type="submit">Calculate Risk</button>
     </form>
     <div class="result" id="result"></div>
+    <div class="timestamp" id="rateTimestamp"></div>
     <div class="gif-container" id="gifContainer">
       <img src="burning-money.gif" alt="Burning Money GIF">
     </div>
   </div>
 
   <script>
-    document.getElementById('calcForm').addEventListener('submit', function(event) {
+    async function fetchExchangeRates() {
+      try {
+        const response = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=USD,GBP,AUD,EUR,CAD');
+        const data = await response.json();
+        return {
+          rates: {
+            USD: { rate: data.rates.USD, symbol: '$' },
+            GBP: { rate: data.rates.GBP, symbol: '£' },
+            AUD: { rate: data.rates.AUD, symbol: 'A$' },
+            EUR: { rate: data.rates.EUR, symbol: '€' },
+            CAD: { rate: data.rates.CAD, symbol: 'C$' }
+          },
+          timestamp: new Date()
+        };
+      } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+        return {
+          rates: {
+            USD: { rate: 1, symbol: '$' },
+            GBP: { rate: 0.79, symbol: '£' },
+            AUD: { rate: 1.53, symbol: 'A$' },
+            EUR: { rate: 0.92, symbol: '€' },
+            CAD: { rate: 1.36, symbol: 'C$' }
+          },
+          timestamp: new Date()
+        };
+      }
+    }
+
+    document.getElementById('calcForm').addEventListener('submit', async function(event) {
       event.preventDefault();
 
       const employees = parseFloat(document.getElementById('employees').value);
       const phishRate = parseFloat(document.getElementById('phishRate').value);
-      const costPerEmail = 31.25;
+      const currency = document.getElementById('currency').value;
+
+      const exchangeData = await fetchExchangeRates();
+      const exchangeRates = exchangeData.rates;
+      const fetchTime = exchangeData.timestamp;
+
+      const baseCostPerEmail = 31.25;
+      const costPerEmail = baseCostPerEmail * exchangeRates[currency].rate;
+      const currencySymbol = exchangeRates[currency].symbol;
 
       const totalPhishingEmails = employees * phishRate;
       const monthlyCost = totalPhishingEmails * costPerEmail;
       const annualCost = monthlyCost * 12;
 
-      document.getElementById('result').innerHTML = `
-        <div class="subtitle">Based on your input, the estimated impact is:</div>
-        <div class="highlight">$${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
-        <div class="highlight">$${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
-      `;
+      const isoStr = fetchTime.toISOString();
+      const utcTimestamp = isoStr.slice(0,16).replace('T',' ') + ' UTC';
 
-      document.getElementById('gifContainer').style.display = 'block';
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
+        <div class="subtitle">Based on your input, the estimated impact is:</div>
+        <div class="highlight">${currencySymbol}${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
+        <div class="highlight">${currencySymbol}${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
+      `;
+      resultDiv.classList.add('show');
+
+      document.getElementById('rateTimestamp').textContent = `Exchange rates updated: ${utcTimestamp}`;
+
+      const gifDiv = document.getElementById('gifContainer');
+      gifDiv.classList.add('show');
     });
   </script>
 </body>
