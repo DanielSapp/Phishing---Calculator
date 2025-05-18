@@ -216,37 +216,55 @@
 
       const resultDiv = document.getElementById('result');
       resultDiv.innerHTML = `
-        <div class="subtitle">Based on your input, the estimated impact is:</div>
-        <div class="highlight">${currencySymbol}${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
-        <div class="highlight">${currencySymbol}${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
+        <div class="subtitle">Estimated Financial Impact</div>
+        <div class="highlight">${currencySymbol}${monthlyCost.toFixed(2)}</div>
+        <div style="font-size: 0.9em; color: #777;">per month</div>
+        <div class="highlight">${currencySymbol}${annualCost.toFixed(2)}</div>
+        <div style="font-size: 0.9em; color: #777;">per year</div>
 
-        <div class="subtitle" style="margin-top:30px;">Estimated Time Impact</div>
-        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-          <div style="text-align:center;">
-            <div class="highlight">${monthlyTimeImpactMinutes.toLocaleString()}</div>
-            <div style="font-size: 0.9em; color: #777;">min/mo</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="highlight">${monthlyHours}</div>
-            <div style="font-size: 0.9em; color: #777;">hr/mo</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="highlight">${monthlyDays}</div>
-            <div style="font-size: 0.9em; color: #777;">days/mo</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="highlight">${annualTimeImpactMinutes.toLocaleString()}</div>
-            <div style="font-size: 0.9em; color: #777;">min/yr</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="highlight">${annualHours}</div>
-            <div style="font-size: 0.9em; color: #777;">hr/yr</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="highlight">${annualDays}</div>
-            <div style="font-size: 0.9em; color: #777;">days/yr</div>
-          </div>
-        </div>
+        <div class="subtitle" style="margin-top:30px;">Estimated Time Lost</div>
+        <table style="margin: 0 auto; font-size: 0.95em; color: #c9d1d9; border-collapse: collapse;">
+  <thead>
+    <tr style="color: #58a6ff;">
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;"></th>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Minutes</th>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Hours</th>
+      <th style="padding: 6px 12px; border-bottom: 1px solid #30363d;">Workdays</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 6px 12px;">Monthly</td>
+      <td style="padding: 6px 12px;">
+        ${monthlyTimeImpactMinutes.toLocaleString()}
+        <div style='background:#2ea043;height:6px;width:${Math.min((monthlyTimeImpactMinutes/10000)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+      <td style="padding: 6px 12px;">
+        ${monthlyHours}
+        <div style='background:#2ea043;height:6px;width:${Math.min((monthlyHours/160)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+      <td style="padding: 6px 12px;">
+        ${monthlyDays}
+        <div style='background:#2ea043;height:6px;width:${Math.min((monthlyDays/20)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 6px 12px;">Yearly</td>
+      <td style="padding: 6px 12px;">
+        ${annualTimeImpactMinutes.toLocaleString()}
+        <div style='background:#ff7b72;height:6px;width:${Math.min((annualTimeImpactMinutes/120000)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+      <td style="padding: 6px 12px;">
+        ${annualHours}
+        <div style='background:#ff7b72;height:6px;width:${Math.min((annualHours/2000)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+      <td style="padding: 6px 12px;">
+        ${annualDays}
+        <div style='background:#ff7b72;height:6px;width:${Math.min((annualDays/250)*100, 100)}%;margin-top:4px;border-radius:3px;'></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
       `;
       resultDiv.classList.add('show');
 
