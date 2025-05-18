@@ -11,7 +11,9 @@
     input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; }
     button { margin-top: 20px; padding: 10px 20px; background-color: #0073e6; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #005bb5; }
-    .result { margin-top: 20px; font-weight: bold; font-size: 1.2em; }
+    .result { margin-top: 30px; font-size: 1.4em; text-align: center; }
+    .highlight { font-size: 2em; color: #d32f2f; font-weight: bold; margin-top: 10px; }
+    .subtitle { font-size: 1.1em; color: #555; }
   </style>
 </head>
 <body>
@@ -38,9 +40,14 @@
       const costPerEmail = 31.25;
 
       const totalPhishingEmails = employees * phishRate;
-      const estimatedCost = totalPhishingEmails * costPerEmail;
+      const monthlyCost = totalPhishingEmails * costPerEmail;
+      const annualCost = monthlyCost * 12;
 
-      document.getElementById('result').textContent = `Estimated Monthly Cost Impact: $${estimatedCost.toFixed(2)}`;
+      document.getElementById('result').innerHTML = `
+        <div class="subtitle">Based on your input, the estimated impact is:</div>
+        <div class="highlight">$${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
+        <div class="highlight">$${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
+      `;
     });
   </script>
 </body>
