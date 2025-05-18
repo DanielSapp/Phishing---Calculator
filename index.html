@@ -219,9 +219,34 @@
         <div class="subtitle">Based on your input, the estimated impact is:</div>
         <div class="highlight">${currencySymbol}${monthlyCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per month</span></div>
         <div class="highlight">${currencySymbol}${annualCost.toFixed(2)} <span style="font-size: 0.6em; color: #777;">per year</span></div>
-        <div class="subtitle" style="margin-top:20px;">Estimated Time Impact:</div>
-        <div class="highlight">${monthlyTimeImpactMinutes.toLocaleString()} minutes / ${monthlyHours} hours / ${monthlyDays} workdays <span style="font-size: 0.6em; color: #777;">per month</span></div>
-        <div class="highlight">${annualTimeImpactMinutes.toLocaleString()} minutes / ${annualHours} hours / ${annualDays} workdays <span style="font-size: 0.6em; color: #777;">per year</span></div>
+
+        <div class="subtitle" style="margin-top:30px;">Estimated Time Impact</div>
+        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+          <div style="text-align:center;">
+            <div class="highlight">${monthlyTimeImpactMinutes.toLocaleString()}</div>
+            <div style="font-size: 0.9em; color: #777;">min/mo</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="highlight">${monthlyHours}</div>
+            <div style="font-size: 0.9em; color: #777;">hr/mo</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="highlight">${monthlyDays}</div>
+            <div style="font-size: 0.9em; color: #777;">days/mo</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="highlight">${annualTimeImpactMinutes.toLocaleString()}</div>
+            <div style="font-size: 0.9em; color: #777;">min/yr</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="highlight">${annualHours}</div>
+            <div style="font-size: 0.9em; color: #777;">hr/yr</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="highlight">${annualDays}</div>
+            <div style="font-size: 0.9em; color: #777;">days/yr</div>
+          </div>
+        </div>
       `;
       resultDiv.classList.add('show');
 
